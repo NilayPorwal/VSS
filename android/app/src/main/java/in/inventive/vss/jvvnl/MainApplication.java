@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.airbnb.android.react.maps.BuildConfig;
 import com.facebook.react.ReactApplication;
+import com.gantix.JailMonkey.JailMonkeyPackage;
 import io.github.elyx0.reactnativedocumentpicker.DocumentPickerPackage;
 import com.rnfs.RNFSPackage;
 import com.reactnativecommunity.geolocation.GeolocationPackage;
@@ -39,6 +40,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new JailMonkeyPackage(),
             new DocumentPickerPackage(),
             new RNFSPackage(),
             new GeolocationPackage(),

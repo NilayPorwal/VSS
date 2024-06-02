@@ -13,7 +13,7 @@ export default class App extends Component {
 			console.log = () => {};
 		}
 		if (JailMonkey.isJailBroken()) {
-			Alert.alert('This app does not support rooted devices', [
+			Alert.alert('', 'This app does not support rooted devices', [
 				{
 					text: 'Ok',
 					onPress: () => {
@@ -27,6 +27,6 @@ export default class App extends Component {
 
 	render() {
 		console.disableYellowBox = true;
-		return <RootStack />;
+		return !JailMonkey.isJailBroken() ? <RootStack /> : null;
 	}
 }

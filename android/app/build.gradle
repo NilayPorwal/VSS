@@ -156,6 +156,7 @@ android {
 }
 
 dependencies {
+    implementation project(':jail-monkey')
     implementation project(':react-native-document-picker')
     implementation project(':react-native-fs')
     implementation project(':@react-native-community_geolocation')

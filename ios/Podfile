@@ -60,6 +60,8 @@ target 'VendorMitra' do
 
   pod 'react-native-geolocation-service', :path => '../node_modules/react-native-geolocation-service'
 
+  pod 'jail-monkey', :path => '../node_modules/jail-monkey'
+
 end
 
 post_install do |installer|
