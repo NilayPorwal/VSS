@@ -1,0 +1,6 @@
+module react_native_sqlite_storage {
+  umbrella header "react-native-sqlite-storage-umbrella.h"
+
+  export *
+  module * { export * }
+}

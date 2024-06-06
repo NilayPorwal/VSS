@@ -1,0 +1,23 @@
+{
+  "name": "RNSecureStorage",
+  "version": "3.0.1",
+  "summary": "Secure Storage for React Native (Android & iOS) - Keychain & Keystore",
+  "license": "MIT",
+  "authors": "Talut TASGIRAN <hi@talut.dev> (https://talut.dev)",
+  "homepage": "https://github.com/talut/rn-secure-storage#readme",
+  "platforms": {
+    "ios": "10.0",
+    "tvos": "9.2",
+    "osx": "10.14"
+  },
+  "source": {
+    "git": "https://github.com/talut/rn-secure-storage.git",
+    "tag": "v3.0.1"
+  },
+  "source_files": "ios/**/*.{h,m,swift}",
+  "dependencies": {
+    "React": [
+
+    ]
+  }
+}

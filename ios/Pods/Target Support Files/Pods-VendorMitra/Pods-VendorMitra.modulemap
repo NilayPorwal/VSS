@@ -1,0 +1,6 @@
+module Pods_VendorMitra {
+  umbrella header "Pods-VendorMitra-umbrella.h"
+
+  export *
+  module * { export * }
+}

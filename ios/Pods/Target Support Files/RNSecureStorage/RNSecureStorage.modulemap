@@ -1,0 +1,6 @@
+module RNSecureStorage {
+  umbrella header "RNSecureStorage-umbrella.h"
+
+  export *
+  module * { export * }
+}
