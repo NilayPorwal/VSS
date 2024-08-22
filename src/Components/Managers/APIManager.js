@@ -95,7 +95,7 @@ export default class APIManager {
 			.then(response => response.json())
 
 			.then(responseJson => {
-				// alert(JSON.stringify(responseJson));
+				//alert(JSON.stringify(responseJson));
 				try {
 					console.log(JSON.stringify(responseJson));
 					success(responseJson);

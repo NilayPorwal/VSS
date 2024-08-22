@@ -30,15 +30,19 @@ export default class LogInScreen extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			username: 'xenvgjpdc@gmail.com',
-			password: '123',
+			username: '', //xenvgjpdc@gmail.com
+			password: '',
 			data: { mh: '' },
 			otpModalVisible: false,
 			OTP: '',
 			isRefreshing: false,
 			loginData: {},
 			APIModal: false,
-			securePassword: true
+			securePassword: true,
+			blockedTime: 0,
+			disabled: false,
+			otpBlockedTime: 0,
+			otpDisabled: false
 		};
 		global.logInScreen = this;
 	}
@@ -68,8 +72,8 @@ export default class LogInScreen extends Component {
 
 	async onLogIn() {
 		Keyboard.dismiss();
-		const pass = await Base64.encode(global.logInScreen.state.password);
-		const user = await this.state.username;
+		const pass = this.state.password; //await Base64.encode(global.logInScreen.state.password)
+		const user = this.state.username;
 		if (this.state.username != '' && this.state.password != '') {
 			this.setState({ isRefreshing: true });
 
@@ -78,7 +82,7 @@ export default class LogInScreen extends Component {
 				pass,
 				response => {
 					// this.setState({isRefreshing:false})
-					// alert(JSON.stringify(response));
+					//alert(JSON.stringify(response));
 					if (response.valid == true) {
 						global.logInScreen.setState({ loginData: response }, () => {
 							this._storeLoginData();
@@ -86,7 +90,8 @@ export default class LogInScreen extends Component {
 
 						if (response.roleName != 'IOS_TEST_LOGIN') {
 							APIManager.getOTP(
-								response.mobile,
+								//response.mobile,
+								this.state.username,
 								responseJson => {
 									//alert(JSON.stringify(responseJson));
 									global.logInScreen.setState({ data: responseJson.data, isRefreshing: false, otpModalVisible: true });
@@ -114,7 +119,24 @@ export default class LogInScreen extends Component {
 						}
 					} else {
 						this.setState({ isRefreshing: false });
-						Alert.alert('Login failed', 'Invalid Username or Password');
+
+						if (response.message == 'Tried max limit') {
+							Alert.alert('Login failed...', 'Too many failed attempts, please try after one minute.');
+							this.setState({ disabled: true });
+							let sec = 61;
+							const interval = setInterval(() => {
+								sec = sec - 1;
+								this.setState({
+									blockedTime: sec
+								});
+								if (sec == 0) {
+									this.setState({ disabled: false });
+									clearInterval(interval);
+								}
+							}, 1000);
+						} else {
+							Alert.alert('Login failed...', 'Invalid Username or Password.');
+						}
 					}
 				},
 				error => {
@@ -137,19 +159,40 @@ export default class LogInScreen extends Component {
 			mh,
 			responseJson => {
 				this.setState({ isRefreshing: false });
-				// alert(JSON.stringify(responseJson));
-				if (responseJson.status == 'SUCCESS') {
-					global.logInScreen.setState({ otpModalVisible: false, OTP: '', username: '', password: '' });
+				//alert(JSON.stringify(responseJson));
 
-					if (this.state.loginData.roleName != 'IOS_TEST_LOGIN') {
-						setData('login', '1');
-						global.logInScreen.props.navigation.push('HomeScreen');
+				if (responseJson?.status == 'SUCCESS') {
+					if (responseJson?.data?.message == 'Otp has been expired') {
+						this.showMessage('Your Otp has been expired. Please retry login');
+					} else if (responseJson?.data?.message == 'You are blocked for 1 minute') {
+						this.showMessage('You have tried maximum attempt so blocked for 1 minute..Please retry after sometime');
+						this.setState({ otpDisabled: true });
+						let sec = 61;
+						const interval = setInterval(() => {
+							sec = sec - 1;
+							this.setState({
+								otpBlockedTime: sec
+							});
+							if (sec == 0) {
+								this.setState({ otpDisabled: false });
+								clearInterval(interval);
+							}
+						}, 1000);
+					} else if (responseJson?.data?.message == 'Invalid OTP') {
+						this.showMessage('Please try with valid otp');
 					} else {
-						setData('login', '2');
-						global.logInScreen.props.navigation.push('PublicUserScreen');
+						global.logInScreen.setState({ otpModalVisible: false, OTP: '', username: '', password: '' });
+
+						if (this.state.loginData.roleName != 'IOS_TEST_LOGIN') {
+							setData('login', '1');
+							global.logInScreen.props.navigation.push('HomeScreen');
+						} else {
+							setData('login', '2');
+							global.logInScreen.props.navigation.push('PublicUserScreen');
+						}
 					}
 				} else {
-					alert('Invalid OTP');
+					this.showMessage(responseJson?.message);
 				}
 			},
 			error => {
@@ -159,9 +202,9 @@ export default class LogInScreen extends Component {
 		);
 	}
 
-	_storeData = async () => {
-		await setData('login', '1');
-	};
+	showMessage(message) {
+		Alert.alert('OTP Failed...', message);
+	}
 
 	_storeLoginData() {
 		setData('InspId', this.state.loginData.mapId.toString());
@@ -193,8 +236,10 @@ export default class LogInScreen extends Component {
 									value={this.state.username}
 									placeholder="USERNAME"
 									underlineColorAndroid="#141F25"
-									selectTextOnFocus={true}
+									selectTextOnFocus={false}
 									autoFocus
+									autoCapitalize={false}
+									autoComplete="email"
 								/>
 							</View>
 							<View style={{ marginTop: 10, width: '80%', flexDirection: 'row' }}>
@@ -207,8 +252,9 @@ export default class LogInScreen extends Component {
 									value={this.state.password}
 									placeholder="PASSWORD"
 									underlineColorAndroid="#141F25"
-									selectTextOnFocus={true}
+									selectTextOnFocus={false}
 									secureTextEntry={this.state.securePassword}
+									autoCapitalize={false}
 								/>
 								<TouchableOpacity
 									onPress={() => this.setState({ securePassword: !this.state.securePassword })}
@@ -225,9 +271,20 @@ export default class LogInScreen extends Component {
 							{this.state.isRefreshing == true ? (
 								<ActivityIndicator size="small" color="#000000" style={{ marginTop: 10 }} />
 							) : (
-								<TouchableOpacity onPress={() => global.logInScreen.onLogIn()} style={styles.button}>
-									<Text style={styles.buttonText}>SUBMIT</Text>
-								</TouchableOpacity>
+								<>
+									<TouchableOpacity
+										onPress={() => global.logInScreen.onLogIn()}
+										disabled={this.state.disabled}
+										style={styles.button}
+									>
+										<Text style={styles.buttonText}>SUBMIT</Text>
+									</TouchableOpacity>
+									{this.state.disabled && (
+										<Text style={{ fontSize: 15, fontFamily: 'GoogleSans-Medium', color: 'red', paddingTop: 10 }}>
+											Retry after : {this.state.blockedTime}
+										</Text>
+									)}
+								</>
 							)}
 
 							<Modal
@@ -271,11 +328,24 @@ export default class LogInScreen extends Component {
 											{this.state.isRefreshing == true ? (
 												<ActivityIndicator size="small" color="#000000" style={{ marginTop: 10 }} />
 											) : (
-												<TouchableOpacity onPress={() => this.onSubmitOtp()} style={styles.otpButton}>
-													<Text style={{ fontSize: 15, color: '#ffffff', paddingVertical: 12, textAlign: 'center' }}>
-														SUBMIT
-													</Text>
-												</TouchableOpacity>
+												<>
+													<TouchableOpacity
+														disabled={!this.state.OTP || this.state.otpDisabled}
+														onPress={() => this.onSubmitOtp()}
+														style={styles.otpButton}
+													>
+														<Text style={{ fontSize: 15, color: '#ffffff', paddingVertical: 12, textAlign: 'center' }}>
+															SUBMIT
+														</Text>
+													</TouchableOpacity>
+													{this.state.otpDisabled && (
+														<Text
+															style={{ fontSize: 15, fontFamily: 'GoogleSans-Medium', color: 'red', paddingTop: 10 }}
+														>
+															Retry after : {this.state.otpBlockedTime}
+														</Text>
+													)}
+												</>
 											)}
 										</View>
 
