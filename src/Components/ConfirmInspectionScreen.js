@@ -89,6 +89,7 @@ export default class ConfirmInspectionScreen extends Component {
 			//  alert( JSON.stringify(Details) )
 			APIManager.onConfirmInsp(
 				Details,
+				this.props.navigation.state.params.from,
 				responseJson => {
 					this.setState({ isRefreshing: false });
 					if (responseJson.status == 'SUCCESS') {
@@ -132,9 +133,25 @@ export default class ConfirmInspectionScreen extends Component {
 				<ScrollView>
 					<KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
 						<Loader loading={this.state.isRefreshing} color="#40a7ab" />
-						<Text style={{ fontSize: 18, fontFamily: 'GoogleSans-Medium', marginTop: 15, color: 'black' }}>
-							CONFIRMATION OF INSPECTION
-						</Text>
+
+						<View style={{ flexDirection: 'row' }}>
+							<TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+								<Icon name="chevron-left" size={20} color="#000000" style={{ margin: 15 }} />
+							</TouchableOpacity>
+							<View style={{ width: '90%' }}>
+								<Text
+									style={{
+										fontSize: 18,
+										fontFamily: 'GoogleSans-Medium',
+										color: 'black',
+										paddingTop: 15,
+										textAlign: 'center'
+									}}
+								>
+									Confirmation of Inspection
+								</Text>
+							</View>
+						</View>
 
 						<View style={styles.detailsView}>
 							<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>

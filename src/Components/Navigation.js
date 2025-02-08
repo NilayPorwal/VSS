@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { StackNavigator } from 'react-navigation';
-import HomeScreen from './HomeScreen';
 import InspectionsPerformed from './InspectionsPerformed';
 import InspectionsInProcess from './InspectionsInProcess';
 import StartInspectionScreen from './StartInspectionScreen';
@@ -44,6 +43,9 @@ import GPTestScreen from './GPTestScreen';
 import GPVendIntimation from './GPVendIntimation';
 import GPConfirmInspectionScreen from './GPConfirmInspectionScreen';
 import GPInspectorConfirmationScreen from './vendor_login/GPInspectorConfirmationScreen';
+import HomeScreen from './HomeScreen';
+import SetwInspection from './SetwInspection';
+import MMInspection from './MMInspection';
 
 export const RootStack = StackNavigator({
 	SplashScreen: {
@@ -71,6 +73,16 @@ export const RootStack = StackNavigator({
 		navigationOptions: {
 			gesturesEnabled: false
 		}
+	},
+
+	MMInspection: {
+		screen: MMInspection,
+		navigationOptions: {
+			gesturesEnabled: false
+		}
+	},
+	SetwInspection: {
+		screen: SetwInspection
 	},
 	Calculator: {
 		screen: CalculatorScreen

@@ -64,6 +64,7 @@ export default class InspectionsInProcess extends Component {
 		const inspId = await this.state.inspId;
 		APIManager.getVendorList(
 			inspId,
+			this.props.navigation.state.params.from,
 			responseJson => {
 				console.log(JSON.stringify(responseJson));
 				this.setState({ vendorList: responseJson.data, isRefreshing: false });
@@ -86,7 +87,8 @@ export default class InspectionsInProcess extends Component {
 	reDirectTo(item) {
 		clearInterval(this._interval);
 		this.props.navigation.push('ActiveSiteOffers', {
-			vendorDetails: item
+			vendorDetails: item,
+			from: this.props.navigation.state.params.from
 		});
 	}
 
@@ -103,17 +105,24 @@ export default class InspectionsInProcess extends Component {
 				<ScrollView>
 					<View style={styles.container}>
 						<Loader loading={this.state.isRefreshing} color="#40a7ab" />
-						<Text
-							style={{
-								fontSize: 18,
-								fontFamily: 'GoogleSans-Medium',
-								marginTop: 25,
-								color: 'black',
-								textAlign: 'center'
-							}}
-						>
-							INSPECTIONS INPROCESS
-						</Text>
+						<View style={{ flexDirection: 'row' }}>
+							<TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+								<Icon name="chevron-left" size={20} color="#000000" style={{ margin: 15 }} />
+							</TouchableOpacity>
+							<View style={{ width: '90%' }}>
+								<Text
+									style={{
+										fontSize: 18,
+										fontFamily: 'GoogleSans-Medium',
+										color: 'black',
+										paddingTop: 15,
+										textAlign: 'center'
+									}}
+								>
+									Inspections In Process
+								</Text>
+							</View>
+						</View>
 
 						{this.state.vendorList != null ? (
 							<View>

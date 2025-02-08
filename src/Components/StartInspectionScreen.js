@@ -109,6 +109,7 @@ export default class StartInspectionScreen extends Component {
 		//alert(JSON.stringify(Details))
 		APIManager.uploadLatLong(
 			Details,
+			this.props.navigation.state.params.from,
 			responseData => {
 				//alert(JSON.stringify(responseData))
 				this.reDirectTo();
@@ -127,7 +128,8 @@ export default class StartInspectionScreen extends Component {
 			vndrId: this.state.vendorId,
 			woId: this.state.woId,
 			matId: this.state.matId,
-			matscId: this.state.matscId
+			matscId: this.state.matscId,
+			from: this.props.navigation.state.params.from
 		});
 	}
 
@@ -173,7 +175,7 @@ export default class StartInspectionScreen extends Component {
 	render() {
 		return (
 			<ImageBackground source={require('../Images/background.png')} style={{ width: '100%', height: '100%' }}>
-				<View style={{ width: '20%', flexDirection: 'row' }}>
+				<View style={{ width: '100%', flexDirection: 'row' }}>
 					<TouchableOpacity onPress={() => this.props.navigation.goBack()}>
 						<Icon name="chevron-left" size={20} color="#000000" style={{ margin: 15 }} />
 					</TouchableOpacity>

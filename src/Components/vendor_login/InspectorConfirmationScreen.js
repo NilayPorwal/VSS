@@ -79,6 +79,7 @@ export default class InspectorConfirmationScreen extends Component {
 	getInspectorConfirmationDetails() {
 		APIManager.getInspectorConfirmationDetails(
 			this.state.vendId,
+			this.props.navigation.state.params.from,
 			responseJson => {
 				//alert(JSON.stringify(responseJson));
 				if (responseJson.status == 'SUCCESS') {
@@ -129,6 +130,7 @@ export default class InspectorConfirmationScreen extends Component {
 		// alert( JSON.stringify(Details))
 		APIManager.onConfirmByVendor(
 			Details,
+			this.props.navigation.state.params.from,
 			responseJson => {
 				console.log(JSON.stringify(responseJson));
 				if (responseJson.status == 'SUCCESS') {
@@ -182,6 +184,7 @@ export default class InspectorConfirmationScreen extends Component {
 		APIManager.onSubmitOffer(
 			Details,
 			'PDI',
+			this.props.navigation.state.params.from,
 			responseJson => {
 				console.log(JSON.stringify(responseJson));
 				if (responseJson.status == 'SUCCESS') {
@@ -255,6 +258,7 @@ export default class InspectorConfirmationScreen extends Component {
 		console.log(JSON.stringify(Details));
 		APIManager.addOfferQty(
 			Details,
+			this.props.navigation.state.params.from,
 			responseJson => {
 				console.log(JSON.stringify(responseJson));
 				if (responseJson.status == 'SUCCESS') {
@@ -358,7 +362,7 @@ export default class InspectorConfirmationScreen extends Component {
 					<View style={styles.container}>
 						<Loader loading={this.state.isRefreshing} color="#40a7ab" />
 
-						<View style={{ width: '20%', flexDirection: 'row' }}>
+						<View style={{ width: '100%', flexDirection: 'row' }}>
 							<TouchableOpacity onPress={() => this.props.navigation.goBack()}>
 								<Icon name="chevron-left" size={20} color="#000000" style={{ margin: 15 }} />
 							</TouchableOpacity>

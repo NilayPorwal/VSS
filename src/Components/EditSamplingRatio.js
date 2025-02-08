@@ -76,7 +76,9 @@ export default class EditSamplingRatio extends Component {
 		console.log(JSON.stringify(data));
 		APIManager.getSamplingList(
 			data,
+			this.props.navigation.state.params.from,
 			responseJson => {
+				//console.log(JSON.stringify(responseJson));
 				this.setState({ isLoading: false });
 
 				if (responseJson.status == 'SUCCESS') {
@@ -160,6 +162,7 @@ export default class EditSamplingRatio extends Component {
 
 		APIManager.onSaveSample(
 			this.state.samplingDataNew,
+			this.props.navigation.state.params.from,
 			responseJson => {
 				this.setState({ isLoading: false });
 				//Alert.alert("Res", JSON.stringify(responseJson))

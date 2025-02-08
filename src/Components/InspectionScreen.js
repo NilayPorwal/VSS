@@ -88,14 +88,18 @@ export default class Inspection extends Component {
 
 	getTestStatus() {
 		//alert(this.state.materialDetails.inspectionMatAiId)
-		APIManager.checkTestStatus(this.state.materialDetails.inspectionMatAiId, responseJson => {
-			//alert(JSON.stringify(responseJson));
-			this.setState({
-				uatCount: responseJson.data.uatCount,
-				obsCount: responseJson.data.obsCount,
-				gtpCount: responseJson.data.gtpCount
-			});
-		});
+		APIManager.checkTestStatus(
+			this.state.materialDetails.inspectionMatAiId,
+			this.props.navigation.state.params.from,
+			responseJson => {
+				//alert(JSON.stringify(responseJson));
+				this.setState({
+					uatCount: responseJson.data.uatCount,
+					obsCount: responseJson.data.obsCount,
+					gtpCount: responseJson.data.gtpCount
+				});
+			}
+		);
 	}
 
 	checkTestStatus() {
@@ -145,6 +149,7 @@ export default class Inspection extends Component {
 		//alert(Details)
 		APIManager.updateMatInspStatus(
 			Details,
+			this.props.navigation.state.params.from,
 			responseJson => {
 				//alert(JSON.stringify(responseJson));
 				if (responseJson.status == 'SUCCESS') {
@@ -180,7 +185,8 @@ export default class Inspection extends Component {
 		this.props.navigation.push(screen, {
 			onSelect: () => this.getTestStatus(),
 			siteOfferDetails: this.state.siteOfferDetails,
-			materialDetails: this.state.materialDetails
+			materialDetails: this.state.materialDetails,
+			from: this.props.navigation.state.params.from
 		});
 	};
 
@@ -235,6 +241,7 @@ export default class Inspection extends Component {
 	getDownloadLink() {
 		APIManager.getDownloadLink(
 			this.state.materialDetails.woAiId,
+			this.props.navigation.state.params.from,
 			responseJson => {
 				//alert(JSON.stringify(responseJson));
 				if (responseJson.status == 'SUCCESS') {

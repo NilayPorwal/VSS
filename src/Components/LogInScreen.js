@@ -30,7 +30,11 @@ export default class LogInScreen extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			username: '', //xenvgjpdc@gmail.com
+			// username: 'mukeshsinghsikarwar1101@gmail.com', //xenvgjpdc@gmail.com,
+			// username: 'maharajacables78@rediffmail.com',
+			// username: 'balaraamchaudhary1969@gmail.com',
+			// password: 'Balarch@9',
+			username: '',
 			password: '',
 			data: { mh: '' },
 			otpModalVisible: false,
@@ -72,7 +76,7 @@ export default class LogInScreen extends Component {
 
 	async onLogIn() {
 		Keyboard.dismiss();
-		const pass = this.state.password; //await Base64.encode(global.logInScreen.state.password)
+		const pass = await Base64.encode(global.logInScreen.state.password);
 		const user = this.state.username;
 		if (this.state.username != '' && this.state.password != '') {
 			this.setState({ isRefreshing: true });
@@ -90,8 +94,8 @@ export default class LogInScreen extends Component {
 
 						if (response.roleName != 'IOS_TEST_LOGIN') {
 							APIManager.getOTP(
-								//response.mobile,
-								this.state.username,
+								response.mobile,
+								//this.state.username,
 								responseJson => {
 									//alert(JSON.stringify(responseJson));
 									global.logInScreen.setState({ data: responseJson.data, isRefreshing: false, otpModalVisible: true });

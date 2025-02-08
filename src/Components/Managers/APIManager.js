@@ -6,8 +6,8 @@ export default class APIManager {
 	/** API Host URL for login */
 	//static host = 'https://vendormitra.com/vss-api/';
 	//static host = 'http://vendormitra.com:8080/vss-api/';
-	static host = 'https://jvvnl1.ugoerp.com/vss-api/';
-	//static host = 'https://jvvnlvendor.ugoerp.com/vss-api/' //LIVE URL
+	//static host = 'https://jvvnl1.ugoerp.com/vss-api/';
+	static host = 'https://jvvnlvendor.ugoerp.com/vss-api/'; //LIVE URL
 	// static host = 'http://137.116.54.31:8080/vss-api/';
 	// static host = 'http://192.168.1.22:8081/vss-api/'
 	//static host = 'http://3.108.75.42:8080/vss-api/';
@@ -189,12 +189,12 @@ export default class APIManager {
 	 * Get list of vendors
 	 */
 
-	static getVendorList(inspId, success, failure) {
+	static getVendorList(inspId, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
 		//alert(APIManager.host + 'v1/inspector/vendor/list?inspectorId='+ inspId)
-		fetch(APIManager.host + 'v1/inspector/vendor/list?inspectorId=' + inspId + '&status=0', {
+		fetch(APIManager.host + 'v1/inspector/' + from + '/vendor/list?inspectorId=' + inspId + '&status=0', {
 			method: 'POST',
 			headers: {
 				Authorization: Basic,
@@ -220,13 +220,21 @@ export default class APIManager {
 	 * Get list of active site offers
 	 */
 
-	static getSiteOffersList(inspId, vendrId, nomId, success, failure) {
+	static getSiteOffersList(inspId, vendrId, nomId, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
 		//alert(APIManager.host + 'v1/inspection/nomini/inpector?insId='+inspId+'&vndrId='+vendrId+'&nomId='+nomId)
 		fetch(
-			APIManager.host + 'v1/inspection/nomini/inpector?insId=' + inspId + '&vndrId=' + vendrId + '&nomId=' + nomId,
+			APIManager.host +
+				'v1/inspection/' +
+				from +
+				'/nomini/inpector?insId=' +
+				inspId +
+				'&vndrId=' +
+				vendrId +
+				'&nomId=' +
+				nomId,
 			{
 				method: 'POST',
 				headers: {
@@ -254,14 +262,16 @@ export default class APIManager {
 	 * Get  site offers details
 	 */
 
-	static getSiteOfferDetails(inspId, vendrId, woId, matId, matscId, pdiId, success, failure) {
+	static getSiteOfferDetails(inspId, vendrId, woId, matId, matscId, pdiId, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
 		// alert(APIManager.host + 'v1/inspection/detaills?insId='+inspId+'&vndrId='+vendrId+'&woId='+woId+'&matId='+matId+'&matscId='+matscId+'&pdiId='+pdiId)
 		fetch(
 			APIManager.host +
-				'v1/inspection/detaills?insId=' +
+				'v1/inspection/' +
+				from +
+				'/detaills?insId=' +
 				inspId +
 				'&vndrId=' +
 				vendrId +
@@ -298,12 +308,12 @@ export default class APIManager {
 	 * Get  material series
 	 */
 
-	static getMaterialSeries(Details, siteId, success, failure) {
+	static getMaterialSeries(Details, siteId, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
 
-		fetch(APIManager.host + 'v1/material/srno/list?siteId=' + siteId, {
+		fetch(APIManager.host + 'v1/material/' + from + 'srno/list?siteId=' + siteId, {
 			method: 'POST',
 			headers: {
 				loggedInUserId: APIManager.User_Id,
@@ -363,12 +373,12 @@ export default class APIManager {
 	 * Delete material series
 	 */
 
-	static deleteMaterialSeries(insMatId, success, failure) {
+	static deleteMaterialSeries(insMatId, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
 
-		fetch(APIManager.host + 'v1/material/srno/delete?insMatId=' + insMatId, {
+		fetch(APIManager.host + 'v1/material/' + from + '/srno/delete?insMatId=' + insMatId, {
 			method: 'POST',
 			headers: {
 				loggedInUserId: APIManager.User_Id,
@@ -394,12 +404,12 @@ export default class APIManager {
 	 * On Start Inspection
 	 */
 
-	static updateMatInspStatus(Details, success, failure) {
+	static updateMatInspStatus(Details, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
 
-		fetch(APIManager.host + 'v1/material/status/update', {
+		fetch(APIManager.host + 'v1/material/' + from + '/status/update', {
 			method: 'POST',
 			headers: {
 				loggedInUserId: APIManager.User_Id,
@@ -426,12 +436,12 @@ export default class APIManager {
 	 * Upload  Acceptance test details
 	 */
 
-	static uploadAcceptanceTest(Details, success, failure) {
+	static uploadAcceptanceTest(Details, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
 		//alert(APIManager.User_Id)
-		fetch(APIManager.host + 'v1/inspector/inspection/acceptance/test', {
+		fetch(APIManager.host + 'v1/inspector/inspection/' + from + '/acceptance/test', {
 			method: 'POST',
 			headers: {
 				loggedInUserId: APIManager.User_Id,
@@ -491,12 +501,12 @@ export default class APIManager {
 	 * Upload  Observation  test details
 	 */
 
-	static uploadObservations(Details, success, failure) {
+	static uploadObservations(Details, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
 
-		fetch(APIManager.host + 'v1/inspector/inspection/observation', {
+		fetch(APIManager.host + 'v1/inspector/inspection/' + from + '/observation', {
 			method: 'POST',
 			headers: {
 				loggedInUserId: APIManager.User_Id,
@@ -524,19 +534,22 @@ export default class APIManager {
 	 * get GTP  Test List
 	 */
 
-	static getGTPList(matId, matscId, woId, success, failure) {
+	static getGTPList(matId, matscId, woId, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
 		//alert(APIManager.host+'v1/gtp/get/list/bywo?matId='+matId +'&matscId='+matscId+'&woId='+woId)
-		fetch(APIManager.host + 'v1/gtp/get/list/ofwo?matId=' + matId + '&matscId=' + matscId + '&woId=' + woId, {
-			method: 'POST',
-			headers: {
-				loggedInUserId: APIManager.User_Id,
-				Authorization: Basic,
-				'Content-Type': 'application/json'
+		fetch(
+			APIManager.host + 'v1/gtp/get/list/' + from + '/ofwo?matId=' + matId + '&matscId=' + matscId + '&woId=' + woId,
+			{
+				method: 'POST',
+				headers: {
+					loggedInUserId: APIManager.User_Id,
+					Authorization: Basic,
+					'Content-Type': 'application/json'
+				}
 			}
-		})
+		)
 			.then(response => response.json())
 			.then(responseJson => {
 				try {
@@ -555,12 +568,12 @@ export default class APIManager {
 	 * add GTP  material Status
 	 */
 
-	static addGTPStatus(Details, success, failure) {
+	static addGTPStatus(Details, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
 		//alert(APIManager.host+'v1/inspector/inspection/gtp')
-		fetch(APIManager.host + 'v1/inspector/inspection/gtp', {
+		fetch(APIManager.host + 'v1/inspector/inspection/' + from + '/gtp', {
 			method: 'POST',
 			headers: {
 				loggedInUserId: APIManager.User_Id,
@@ -618,12 +631,12 @@ export default class APIManager {
 	 *  UpLoad test status on SamplingMaterial Screen and MaterialInspected Screen
 	 */
 
-	static uploadTestStatus(Details, success, failure) {
+	static uploadTestStatus(Details, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
 		//alert(APIManager.host+'v1/vendor/site/offer/inspction/stats/update')
-		fetch(APIManager.host + 'v1/vendor/site/offer/inspction/stats/update', {
+		fetch(APIManager.host + 'v1/vendor/site/offer/' + from + '/inspction/stats/update', {
 			method: 'POST',
 			headers: {
 				loggedInUserId: APIManager.User_Id,
@@ -650,12 +663,12 @@ export default class APIManager {
 	 *  check Test material Status on inspection screen
 	 */
 
-	static checkTestStatus(inspMatId, success, failure) {
+	static checkTestStatus(inspMatId, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
 		//alert(APIManager.host+'v1/inspector/inspection/gtp')
-		fetch(APIManager.host + 'v1/material/insption/test/count?inspectionMatAiId=' + inspMatId, {
+		fetch(APIManager.host + 'v1/material/insption/' + from + '/test/count?inspectionMatAiId=' + inspMatId, {
 			method: 'POST',
 			headers: {
 				loggedInUserId: APIManager.User_Id,
@@ -681,12 +694,12 @@ export default class APIManager {
 	 *  get Approved DownLoad Link
 	 */
 
-	static getDownloadLink(woId, success, failure) {
+	static getDownloadLink(woId, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
 		// alert(APIManager.host+'public/sso/download/image?woId='+woId)
-		fetch(APIManager.host + 'public/sso/download/image?woId=' + woId, {
+		fetch(APIManager.host + 'public/sso/' + from + '/download/image?woId=' + woId, {
 			method: 'GET',
 			headers: {
 				Authorization: Basic
@@ -738,13 +751,13 @@ export default class APIManager {
 	 *  UpLoad Lat Long on startInspection screen
 	 */
 
-	static uploadLatLong(Details, success, failure) {
+	static uploadLatLong(Details, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
 
 		//alert(APIManager.host+'v1/vendor/site/offer/inspction/stats/update')
-		fetch(APIManager.host + 'v1/inspection/start/detail', {
+		fetch(APIManager.host + 'v1/inspection/' + from + '/start/detail', {
 			method: 'POST',
 			headers: {
 				loggedInUserId: APIManager.User_Id,
@@ -801,13 +814,13 @@ export default class APIManager {
 	 *  UpLoad seal Details on MaterialInspected screen
 	 */
 
-	static uploadSealDetails(Details, success, failure) {
+	static uploadSealDetails(Details, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
 
 		//alert(APIManager.host+'v1/seal/add')
-		fetch(APIManager.host + 'v1/seal/add', {
+		fetch(APIManager.host + 'v1/' + from + '/seal/add', {
 			method: 'POST',
 			headers: {
 				loggedInUserId: APIManager.User_Id,
@@ -866,7 +879,7 @@ export default class APIManager {
 	 *  get package Details on MaterialInspected screen
 	 */
 
-	static getPackageTypeList(success, failure) {
+	static getPackageTypeList(from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
@@ -1008,7 +1021,7 @@ export default class APIManager {
 	 *
 	 */
 
-	static onSubmitOffer(Details, type, success, failure) {
+	static onSubmitOffer(Details, type, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
@@ -1017,7 +1030,7 @@ export default class APIManager {
 		if (type == 'DDS') {
 			url = 'v1/vendor/pdi/offer/of/double/delvery/sch/add';
 		} else {
-			url = 'v1/vendor/pdi/offer/add';
+			url = 'v1/vendor/pdi/offer/' + from + '/add';
 		}
 		//alert(APIManager.host+'v1/seal/add')
 		fetch(APIManager.host + url, {
@@ -1212,13 +1225,13 @@ export default class APIManager {
 	 *
 	 */
 
-	static getNominationInfo(inspId, status, success, failure) {
+	static getNominationInfo(inspId, status, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
 
 		//alert(APIManager.host+'v1/seal/add')
-		fetch(APIManager.host + 'v1/inspector/vendor/list?inspectorId=' + inspId + '&status=' + status, {
+		fetch(APIManager.host + 'v1/inspector/' + from + '/vendor/list?inspectorId=' + inspId + '&status=' + status, {
 			method: 'POST',
 			headers: {
 				loggedInUserId: APIManager.User_Id,
@@ -1244,13 +1257,13 @@ export default class APIManager {
 	 *    on Confirm Inspection on ConfirmInspectionScreen
 	 */
 
-	static onConfirmInsp(Details, success, failure) {
+	static onConfirmInsp(Details, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
 
 		//alert(APIManager.host+'v1/seal/add')
-		fetch(APIManager.host + 'v1/inspection/cnfrm/details', {
+		fetch(APIManager.host + 'v1/inspection/' + from + '/cnfrm/details', {
 			method: 'POST',
 			headers: {
 				loggedInUserId: APIManager.User_Id,
@@ -1276,13 +1289,13 @@ export default class APIManager {
 	 *    on Confirm Inspection on ConfirmInspectionScreen
 	 */
 
-	static getInspectorConfirmationDetails(vId, success, failure) {
+	static getInspectorConfirmationDetails(vId, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
 
 		//alert(APIManager.host+'v1/seal/add')
-		fetch(APIManager.host + 'v1/vendor/inspection/data?vId=' + vId, {
+		fetch(APIManager.host + 'v1/vendor/' + from + '/inspection/data?vId=' + vId, {
 			method: 'POST',
 			headers: {
 				loggedInUserId: APIManager.User_Id,
@@ -1308,13 +1321,17 @@ export default class APIManager {
 	 *    on Confirm By Vendor on InspectorConfirmationScreen
 	 */
 
-	static onConfirmByVendor(Details, success, failure) {
+	static onConfirmByVendor(Details, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
 
+		let endPoint = 'v1/vendorinspection/confrm';
+		if (from && from == 'setw') {
+			endPoint = 'v1/vendorsetw/inspection/confrm';
+		}
 		//alert(APIManager.host+'v1/seal/add')
-		fetch(APIManager.host + 'v1/vendorinspection/confrm', {
+		fetch(APIManager.host + endPoint, {
 			method: 'POST',
 			headers: {
 				loggedInUserId: APIManager.User_Id,
@@ -1405,13 +1422,13 @@ export default class APIManager {
 	 *
 	 */
 
-	static addOfferQty(Details, success, failure) {
+	static addOfferQty(Details, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
 
 		//alert(APIManager.host+'v1/seal/add')
-		fetch(APIManager.host + 'v1/vendor/site/offer/add', {
+		fetch(APIManager.host + 'v1/vendor/site/offer/' + from + '/add', {
 			method: 'POST',
 			headers: {
 				loggedInUserId: APIManager.User_Id,
@@ -1487,13 +1504,13 @@ export default class APIManager {
 			});
 	}
 
-	static getUnitList(nomAiId, success, failure) {
+	static getUnitList(nomAiId, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
 
 		//alert(APIManager.host+'v1/material/unit/test?nomAiId='+nomAiId)
-		fetch(APIManager.host + 'v1/material/unit/test?nomAiId=' + nomAiId, {
+		fetch(APIManager.host + 'v1/material/unit/' + from + '/test?nomAiId=' + nomAiId, {
 			method: 'POST',
 			headers: {
 				loggedInUserId: APIManager.User_Id,
@@ -1542,13 +1559,13 @@ export default class APIManager {
 	//         failure(error)
 	//       });
 	//    }
-	static onSubmitItemConsumes(Details, success, failure) {
+	static onSubmitItemConsumes(Details, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
 
 		//alert(APIManager.host+'v1/seal/add')
-		fetch(APIManager.host + 'v1/vendor/site/offer/inspection/consumed/details/add', {
+		fetch(APIManager.host + 'v1/vendor/site/offer/inspection/' + from + '/consumed/details/add', {
 			method: 'POST',
 			headers: {
 				loggedInUserId: APIManager.User_Id,
@@ -1683,13 +1700,13 @@ export default class APIManager {
 			});
 	}
 
-	static onSaveSample(insertData, success, failure) {
+	static onSaveSample(insertData, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
 
 		//alert(APIManager.host+'v1/vendor/workorder/viewaddress?vendorId='+APIManager.User_Id)
-		fetch(APIManager.host + 'v1/material/sampling/add', {
+		fetch(APIManager.host + 'v1/material/sampling/' + from + '/add', {
 			method: 'POST',
 			headers: {
 				loggedInUserId: APIManager.User_Id,
@@ -1712,15 +1729,25 @@ export default class APIManager {
 			});
 	}
 
-	static getSamplingList(insertData, success, failure) {
+	static getSamplingList(insertData, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
 
-		//alert(APIManager.host+'v1/vendor/workorder/viewaddress?vendorId='+APIManager.User_Id)
+		// alert(
+		// 	APIManager.host +
+		// 		'v1/material/sampling/' +
+		// 		from +
+		// 		'/list?matAiId=' +
+		// 		insertData.matAiId +
+		// 		'&matscAiId=' +
+		// 		insertData.matscAiId
+		// );
 		fetch(
 			APIManager.host +
-				'v1/material/sampling/list?matAiId=' +
+				'v1/material/sampling/' +
+				from +
+				'/list?matAiId=' +
 				insertData.matAiId +
 				'&matscAiId=' +
 				insertData.matscAiId,
@@ -1746,13 +1773,13 @@ export default class APIManager {
 			});
 	}
 
-	static isItemConsumed(nomAiId, success, failure) {
+	static isItemConsumed(nomAiId, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
 
 		//alert(APIManager.host+'v1/vendor/workorder/viewaddress?vendorId='+APIManager.User_Id)
-		fetch(APIManager.host + 'v1/material/get/consumed?nomAiId=' + nomAiId, {
+		fetch(APIManager.host + 'v1/material/get/' + from + '/consumed?nomAiId=' + nomAiId, {
 			method: 'POST',
 			headers: {
 				loggedInUserId: APIManager.User_Id,
@@ -1773,13 +1800,13 @@ export default class APIManager {
 			});
 	}
 
-	static isItemConsumed1(nomAiId, success, failure) {
+	static isItemConsumed1(nomAiId, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
 
 		//console.log(APIManager.host+"v1/vendor/site/offer/inspection/consumed/details?nominationAiId=" + nomAiId)
-		fetch(APIManager.host + 'v1/vendor/site/offer/inspection/consumed/details?nominationAiId=' + nomAiId, {
+		fetch(APIManager.host + 'v1/vendor/site/offer/inspection/' + from + '/consumed/details?nominationAiId=' + nomAiId, {
 			method: 'POST',
 			headers: {
 				loggedInUserId: APIManager.User_Id,
@@ -1962,12 +1989,12 @@ export default class APIManager {
 			});
 	}
 
-	static UploadDocument(details, success, failure) {
+	static UploadDocument(details, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
 		//alert(APIManager.host + 'v1/gp/inspector/nomin/cnfm/insert')
-		fetch(APIManager.host + 'v1/inspector/inspection/final/report/add', {
+		fetch(APIManager.host + 'v1/inspector/' + from + '/inspection/final/report/add', {
 			method: 'POST',
 			headers: {
 				loggedInUserId: APIManager.User_Id,
@@ -1989,7 +2016,7 @@ export default class APIManager {
 			});
 	}
 
-	static onWithDrawal(details, data, success, failure) {
+	static onWithDrawal(details, data, from = '', success, failure) {
 		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
 		const hash = Base64.encode(credentials);
 		const Basic = 'Basic ' + hash;
@@ -1997,7 +2024,9 @@ export default class APIManager {
 		console.log(JSON.stringify(details));
 		fetch(
 			APIManager.host +
-				'/v1/inspector/inspection/withdrawal?nominationAiId=' +
+				'/v1/inspector/inspection/' +
+				from +
+				'/withdrawal?nominationAiId=' +
 				details.nominationAiId +
 				'&inspectionSiteOfferAiId=' +
 				details.inspectionSiteOfferAiId +

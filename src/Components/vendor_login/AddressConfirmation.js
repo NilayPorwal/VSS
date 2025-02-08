@@ -266,19 +266,25 @@ export class AddressConfirmation extends React.Component {
 		return (
 			<ImageBackground source={require('../../Images/background.png')} style={{ width: '100%', height: '100%' }}>
 				<View style={styles.mainContainer}>
-					<Text
-						style={{
-							fontSize: 18,
-							fontFamily: 'GoogleSans-Medium',
-							marginTop: 25,
-							color: 'black',
-							letterSpacing: 3,
-							paddingHorizontal: 10,
-							textAlign: 'center'
-						}}
-					>
-						Work Address
-					</Text>
+					<View style={{ width: '100%', flexDirection: 'row' }}>
+						<TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+							<Icon name="chevron-left" size={20} color="#000000" style={{ margin: 15 }} />
+						</TouchableOpacity>
+						<View style={{ width: '80%' }}>
+							<Text
+								style={{
+									fontSize: 18,
+									fontFamily: 'GoogleSans-Medium',
+									color: 'black',
+									paddingTop: 15,
+									textAlign: 'center'
+								}}
+							>
+								Work Address
+							</Text>
+						</View>
+					</View>
+
 					{this.state.addressInfo.length > 0 ? (
 						<FlatList
 							data={this.state.addressInfo}

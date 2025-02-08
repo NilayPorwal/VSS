@@ -233,6 +233,7 @@ export default class SealDetails extends Component {
 		let Details = this.state.sealItems;
 		APIManager.uploadSealDetails(
 			Details,
+			this.props.navigation.state.params.from,
 			responseJson => {
 				//	alert(JSON.stringify(responseJson));
 				if (responseJson.status == 'SUCCESS') {
@@ -280,6 +281,7 @@ export default class SealDetails extends Component {
 		//alert(JSON.stringify(Details));
 		APIManager.uploadTestStatus(
 			Details,
+			this.props.navigation.state.params.from,
 			responseJson => {
 				console.log(JSON.stringify(responseJson));
 				if (responseJson.status == 'SUCCESS') {

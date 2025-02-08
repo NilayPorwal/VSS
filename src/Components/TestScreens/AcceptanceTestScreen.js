@@ -189,6 +189,7 @@ export default class AcceptanceTest extends Component {
 			let Details = JSON.stringify(this.state.test);
 			APIManager.uploadAcceptanceTest(
 				Details,
+				this.props.navigation.state.params.from,
 				responseJson => {
 					console.log(JSON.stringify(responseJson));
 					if (responseJson.status == 'SUCCESS') {

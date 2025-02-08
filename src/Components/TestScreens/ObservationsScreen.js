@@ -134,6 +134,7 @@ export default class ObservationsScreen extends Component {
 		//alert(JSON.stringify(Details))
 		APIManager.uploadObservations(
 			Details,
+			this.props.navigation.state.params.from,
 			responseJson => {
 				if (responseJson.status == 'SUCCESS') {
 					//alert(JSON.stringify(responseJson));

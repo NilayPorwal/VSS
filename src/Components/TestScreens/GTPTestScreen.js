@@ -89,6 +89,7 @@ export default class GTPTestScreen extends Component {
 			this.state.siteOfferDetails.materialAiId,
 			this.state.siteOfferDetails.materialSubcategoryAiId,
 			this.state.siteOfferDetails.vendorWoAiId,
+			this.props.navigation.state.params.from,
 			responseJson => {
 				//alert(JSON.stringify(responseJson.data));
 				this.setState({ gtpList: responseJson.data, isRefreshing: false });
@@ -116,6 +117,7 @@ export default class GTPTestScreen extends Component {
 		// alert(JSON.stringify(Details))
 		APIManager.addGTPStatus(
 			Details,
+			this.props.navigation.state.params.from,
 			responseJson => {
 				if (responseJson.status == 'SUCCESS') {
 					//alert(JSON.stringify(responseJson));
@@ -220,6 +222,7 @@ export default class GTPTestScreen extends Component {
 				// alert(JSON.stringify(Details))
 				APIManager.addGTPStatus(
 					Details,
+					this.props.navigation.state.params.from,
 					responseJson => {
 						if (responseJson.status == 'SUCCESS') {
 							this.setState({ gtpList: [], gtpItems: [], isLoading2: false });
@@ -261,6 +264,7 @@ export default class GTPTestScreen extends Component {
 				// alert(JSON.stringify(Details))
 				APIManager.addGTPStatus(
 					Details,
+					this.props.navigation.state.params.from,
 					responseJson => {
 						if (responseJson.status == 'SUCCESS') {
 							// alert(JSON.stringify(responseJson));

@@ -111,7 +111,7 @@ export default class PDIOfferScreen extends Component {
 					<View style={styles.container}>
 						<Loader loading={this.state.isRefreshing} color="#40a7ab" />
 
-						<View style={{ width: '20%', flexDirection: 'row' }}>
+						<View style={{ width: '100%', flexDirection: 'row' }}>
 							<TouchableOpacity onPress={() => this.props.navigation.goBack()}>
 								<Icon name="chevron-left" size={20} color="#000000" style={{ margin: 15 }} />
 							</TouchableOpacity>

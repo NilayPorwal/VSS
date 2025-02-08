@@ -6,11 +6,11 @@
         </trust-anchors>
     </base-config>
     <domain-config>
-        <domain includeSubdomains="true">jvvnl1.ugoerp.com</domain>
+        <domain includeSubdomains="true">jvvnlvendor.ugoerp.com</domain>
         <pin-set>
+            <pin digest="SHA-256">EFOLEeeDMDncZfREiAw0BR18HgMeuZ9Y9xTRG6puc4s=</pin>
+            <pin digest="SHA-256">NYbU7PBwV4y9J67c4guWTki8FJ+uudrXL0a4V4aRcrg=</pin>
             <pin digest="SHA-256">C5+lpZ7tcVwmwQIMcRtPbsQtWLABXhQzejna0wHFr8M=</pin>
-            <pin digest="SHA-256">jQJTbIh0grw0/1TkHSumWb+Fs0Ggogr621gT3PvPKG0=</pin>
-            <pin digest="SHA-256">rcb55gVnElFVw8NDE4FA7L6rS5Uldq408sM+afG9RIw=</pin>
        </pin-set>
     </domain-config>
 </network-security-config>

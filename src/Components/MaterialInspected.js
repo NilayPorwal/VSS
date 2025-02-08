@@ -180,6 +180,7 @@ export default class MaterialInspected extends Component {
 		APIManager.getMaterialSeries(
 			Details,
 			this.state.siteOfferDetails.inspectionSiteAiId,
+			this.props.navigation.state.params.from,
 			responseJson => {
 				//alert(JSON.stringify(responseJson));
 				if (responseJson.status == 'SUCCESS') {
@@ -269,7 +270,8 @@ export default class MaterialInspected extends Component {
 			// onGoBack: () => this._comingBack(),
 			onBack: () => this.getMaterialSeries(),
 			siteOfferDetails: this.state.siteOfferDetails,
-			materialDetails: item
+			materialDetails: item,
+			from: this.props.navigation.state.params.from
 		});
 	};
 
@@ -406,6 +408,7 @@ export default class MaterialInspected extends Component {
 		//alert(Details)
 		APIManager.UploadDocument(
 			Details,
+			this.props.navigation.state.params.from,
 			responseJson => {
 				console.log(JSON.stringify(responseJson));
 				if (responseJson.status == 'SUCCESS') {
@@ -417,7 +420,10 @@ export default class MaterialInspected extends Component {
 							itemConsumeUnit: null,
 							itemRemQty: null
 						});
-						this.props.navigation.push('SealDetails', { siteOfferDetails: this.state.siteOfferDetails });
+						this.props.navigation.push('SealDetails', {
+							siteOfferDetails: this.state.siteOfferDetails,
+							from: this.props.navigation.state.params.from
+						});
 					} else {
 						this.uploadTestStatus();
 					}
@@ -463,6 +469,7 @@ export default class MaterialInspected extends Component {
 		//alert(JSON.stringify(Details));
 		APIManager.uploadSealDetails(
 			Details,
+			this.props.navigation.state.params.from,
 			responseJson => {
 				//	alert(JSON.stringify(responseJson));
 				if (responseJson.status == 'SUCCESS') {
@@ -492,7 +499,7 @@ export default class MaterialInspected extends Component {
 	}
 
 	deleteMaterialSeries(item) {
-		APIManager.deleteMaterialSeries(item.inspectionMatAiId, responseJson => {
+		APIManager.deleteMaterialSeries(item.inspectionMatAiId, this.props.navigation.state.params.from, responseJson => {
 			// alert(JSON.stringify(responseJson));
 			if (responseJson.status == 'SUCCESS') {
 				// this.setState({matSeries:responseJson.data, page: 0},()=>{this._count()} )
@@ -515,6 +522,7 @@ export default class MaterialInspected extends Component {
 
 	getPackageTypeList() {
 		APIManager.getPackageTypeList(
+			this.props.navigation.state.params.from,
 			responseJson => {
 				//alert(JSON.stringify(responseJson));
 				if (responseJson.status == 'SUCCESS') {
@@ -562,6 +570,7 @@ export default class MaterialInspected extends Component {
 	getUnitList() {
 		APIManager.getUnitList(
 			this.state.siteOfferDetails.nominationAiId,
+			this.props.navigation.state.params.from,
 			responseJson => {
 				//alert(JSON.stringify(responseJson));
 				if (responseJson.status == 'SUCCESS') {
@@ -600,11 +609,15 @@ export default class MaterialInspected extends Component {
 		this.setState({ isLoading: true, isObservb: type });
 		APIManager.isItemConsumed(
 			this.state.siteOfferDetails.nominationAiId,
+			this.props.navigation.state.params.from,
 			responseJson => {
 				console.log(JSON.stringify(responseJson));
 				if (responseJson.status == 'SUCCESS') {
 					this.setState({ isLoading: false });
-					this.props.navigation.push('SealDetails', { siteOfferDetails: this.state.siteOfferDetails });
+					this.props.navigation.push('SealDetails', {
+						siteOfferDetails: this.state.siteOfferDetails,
+						from: this.props.navigation.state.params.from
+					});
 				} else {
 					this.isItemConsumed1();
 					// 	if(this.state.image.length == 0){
@@ -623,11 +636,15 @@ export default class MaterialInspected extends Component {
 	isItemConsumed1() {
 		APIManager.isItemConsumed1(
 			this.state.siteOfferDetails.nominationAiId,
+			this.props.navigation.state.params.from,
 			responseJson => {
 				console.log(JSON.stringify(responseJson));
 				if (responseJson.status == 'SUCCESS') {
 					this.setState({ isLoading: false });
-					this.props.navigation.push('SealDetails', { siteOfferDetails: this.state.siteOfferDetails });
+					this.props.navigation.push('SealDetails', {
+						siteOfferDetails: this.state.siteOfferDetails,
+						from: this.props.navigation.state.params.from
+					});
 				} else {
 					this.setState({ isLoading: false });
 					if (this.state.image.length == 0) {
@@ -673,6 +690,7 @@ export default class MaterialInspected extends Component {
 		console.log(JSON.stringify(Details));
 		APIManager.onSubmitItemConsumes(
 			Details,
+			this.props.navigation.state.params.from,
 			responseJson => {
 				console.log(JSON.stringify(responseJson));
 				if (responseJson.status == 'SUCCESS') {
@@ -787,6 +805,7 @@ export default class MaterialInspected extends Component {
 			//alert(JSON.stringify(Details));
 			APIManager.onSubmitItemConsumes(
 				Details,
+				this.props.navigation.state.params.from,
 				responseJson => {
 					//alert(JSON.stringify(responseJson));
 					if (responseJson.status == 'SUCCESS') {

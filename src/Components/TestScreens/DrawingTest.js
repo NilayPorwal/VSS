@@ -100,7 +100,7 @@ export default class DrawingTest extends Component {
 			}
 		];
 		//alert(Details)
-		fetch(APIManager.host + 'v1/inspector/inspection/approve/drawing', {
+		fetch(APIManager.host + 'v1/inspector/inspection/' + this.props.navigation.state.params.from + '/approve/drawing', {
 			method: 'POST',
 			headers: {
 				//'Secret-key':'$2a$10$JrrNkhWRIFF1CUJehK0Zu.X4kItDuY8YFDqCMm7HapJRGymupaMxS',

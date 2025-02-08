@@ -106,8 +106,8 @@ android {
         applicationId "in.inventive.vss.jvvnl"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 30
-        versionName "3.0"
+        versionCode 35
+        versionName "6.0"
         multiDexEnabled true
         // ndk {
         //     abiFilters "armeabi-v7a", "x86"
@@ -171,6 +171,7 @@ dependencies {
     implementation project(':react-native-version-check')
     implementation project(':react-native-maps')
     implementation project(':react-native-geolocation-service')
+    implementation 'org.jetbrains:annotations:16.0.2'
 
    // compile 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
     implementation project(':react-native-vector-icons')

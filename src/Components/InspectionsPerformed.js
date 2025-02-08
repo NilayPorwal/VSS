@@ -64,6 +64,7 @@ export default class InspectionsPerformed extends Component {
 		const inspId = await this.state.inspId;
 		APIManager.getVendorList(
 			inspId,
+			this.props.navigation.state.params?.from,
 			responseJson => {
 				console.log(JSON.stringify(responseJson));
 				this.setState({ vendorList: responseJson.data, isRefreshing: false });
@@ -86,14 +87,16 @@ export default class InspectionsPerformed extends Component {
 
 	reDirectTo(item) {
 		this.props.navigation.navigate('StartInspectionScreen', {
-			vendorDetails: item
+			vendorDetails: item,
+			from: this.props.navigation.state.params.from
 		});
 		clearInterval(this._interval);
 	}
 
 	navigateTo(item) {
 		this.props.navigation.navigate('ActiveSiteOffers', {
-			vendorDetails: item
+			vendorDetails: item,
+			from: this.props.navigation.state.params.from
 		});
 		clearInterval(this._interval);
 	}
@@ -111,9 +114,28 @@ export default class InspectionsPerformed extends Component {
 				<ScrollView>
 					<View style={styles.container}>
 						<Loader loading={this.state.isRefreshing} color="#40a7ab" />
-						<Text style={{ fontSize: 18, fontFamily: 'GoogleSans-Medium', marginTop: 25, color: 'black' }}>
+						{/* <Text style={{ fontSize: 18, fontFamily: 'GoogleSans-Medium', marginTop: 25, color: 'black' }}>
 							INSPECTIONS TO BE PERFORMED
-						</Text>
+						</Text> */}
+
+						<View style={{ flexDirection: 'row' }}>
+							<TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+								<Icon name="chevron-left" size={20} color="#000000" style={{ margin: 15 }} />
+							</TouchableOpacity>
+							<View style={{ width: '90%' }}>
+								<Text
+									style={{
+										fontSize: 18,
+										fontFamily: 'GoogleSans-Medium',
+										color: 'black',
+										paddingTop: 15,
+										textAlign: 'center'
+									}}
+								>
+									Inspection To Be Performed
+								</Text>
+							</View>
+						</View>
 
 						{this.state.vendorList != null ? (
 							<View>

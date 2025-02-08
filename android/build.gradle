@@ -4,10 +4,10 @@ def REACT_NATIVE_VERSION = new File(['node', '--print',"JSON.parse(require('fs')
 buildscript {
     ext {
        
-       buildToolsVersion = "33.0.0"
+        buildToolsVersion = "33.0.0"
         minSdkVersion = 28
-        compileSdkVersion = 33
-        targetSdkVersion = 33
+        compileSdkVersion = 34
+        targetSdkVersion = 34
         supportLibVersion = "33.0.0"
         //googlePlayServicesVersion = "11.8.0"
         androidMapsUtilsVersion = "0.5+"
@@ -41,6 +41,18 @@ allprojects {
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
             url "$rootDir/../node_modules/react-native/android"
+        }
+    }
+
+    subprojects {
+        afterEvaluate {
+            project ->
+                if (project.hasProperty("android")) {
+                    android {
+                        compileSdkVersion = 34
+                        buildToolsVersion = "33.0.0"
+                    }
+                }
         }
     }
 }

@@ -31,7 +31,7 @@ export default class ActiveSiteOffers extends Component {
 			modal1Visible: false,
 			image: []
 		};
-		console.log(JSON.stringify(this.props.navigation.state.params.vendorDetails));
+		//console.log(JSON.stringify(this.props.navigation.state.params.vendorDetails));
 	}
 
 	static navigationOptions = {
@@ -64,6 +64,7 @@ export default class ActiveSiteOffers extends Component {
 			this.state.vendorDetails.inspectorAiId,
 			this.state.vendorDetails.vendorAiId,
 			this.state.vendorDetails.nominationAiId,
+			this.props.navigation.state.params.from,
 			responseJson => {
 				console.log(JSON.stringify(responseJson));
 				this.setState({ siteOffers: responseJson.data, isRefreshing: false });
@@ -85,7 +86,8 @@ export default class ActiveSiteOffers extends Component {
 			matscId: item.materialSubcategoryAiId,
 			pdiId: item.pdiOfferAiId,
 			vendorAddress: item.vendorWorksAddress,
-			vendorDetails: this.state.vendorDetails
+			vendorDetails: this.state.vendorDetails,
+			from: this.props.navigation.state.params.from
 		});
 	}
 
@@ -110,6 +112,7 @@ export default class ActiveSiteOffers extends Component {
 		APIManager.onWithDrawal(
 			Details,
 			this.state.image,
+			this.props.navigation.state.params.from,
 			responseJson => {
 				console.log(JSON.stringify(responseJson));
 				if (responseJson.status == 'SUCCESS') {

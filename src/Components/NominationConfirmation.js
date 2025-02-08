@@ -64,6 +64,7 @@ export default class NominationConfirmation extends Component {
 		APIManager.getNominationInfo(
 			this.state.inspId,
 			1,
+			this.props.navigation.state.params.from,
 			responseJson => {
 				//alert(JSON.stringify(responseJson));
 				if (responseJson.status == 'SUCCESS') {
@@ -83,6 +84,7 @@ export default class NominationConfirmation extends Component {
 		APIManager.getNominationInfo(
 			this.state.inspId,
 			2,
+			this.props.navigation.state.params.from,
 			responseJson => {
 				//alert(JSON.stringify(responseJson));
 				if (responseJson.status == 'SUCCESS') {
@@ -111,15 +113,24 @@ export default class NominationConfirmation extends Component {
 		return (
 			<ImageBackground source={require('../Images/background.png')} style={{ width: '100%', height: '100%' }}>
 				<Loader loading={this.state.isRefreshing} color="#40a7ab" />
+
 				<View style={{ flexDirection: 'row' }}>
 					<TouchableOpacity onPress={() => this.props.navigation.goBack()}>
 						<Icon name="chevron-left" size={20} color="#000000" style={{ margin: 15 }} />
 					</TouchableOpacity>
-					<Text
-						style={{ fontSize: 15, fontFamily: 'GoogleSans-Medium', color: 'black', paddingTop: 15, paddingLeft: 10 }}
-					>
-						Nomination Confirmation to Vendor
-					</Text>
+					<View style={{ width: '90%' }}>
+						<Text
+							style={{
+								fontSize: 18,
+								fontFamily: 'GoogleSans-Medium',
+								color: 'black',
+								paddingTop: 15,
+								textAlign: 'center'
+							}}
+						>
+							Nomination Confirmation to Vendor
+						</Text>
+					</View>
 				</View>
 
 				<ScrollView>

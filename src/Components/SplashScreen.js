@@ -96,7 +96,7 @@ export class SplashScreen extends React.Component {
 
 	onUpdate() {
 		if (Platform.OS == 'android') {
-			Linking.openURL('https://play.google.com/store/apps/details?id=in.skyras.vss.jvvnl');
+			Linking.openURL('https://play.google.com/store/apps/details?id=in.inventive.vss.jvvnl');
 		} else {
 			Linking.openURL('https://apps.apple.com/us/app/jvvnl-vendor-mitra/id1455593379?ls=1');
 		}

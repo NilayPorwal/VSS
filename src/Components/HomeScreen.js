@@ -125,12 +125,6 @@ export default class HomeScreen extends Component {
 		APIManager.getCredentials();
 	}
 
-	reDirectTo() {
-		this.props.navigation.push('InspectionsInProcess', {
-			//siteOfferDetails:this.state.siteOfferDetails
-		});
-	}
-
 	getDownloadLink1() {
 		APIManager.getDownloadLink1(
 			this.state.roleName == 'INSPECTOR' ? 5 : 4,
@@ -162,7 +156,7 @@ export default class HomeScreen extends Component {
 	render() {
 		return (
 			<ImageBackground source={require('../Images/background.png')} style={{ flex: 1 }}>
-				<ScrollView>
+				<ScrollView contentContainerStyle={{ flexGrow: 1 }}>
 					<View style={styles.container}>
 						{Platform.OS == 'android' ? <Loader loading={this.state.isRefreshing} color="#40a7ab" /> : null}
 
@@ -194,74 +188,16 @@ export default class HomeScreen extends Component {
 						</Text>
 
 						{this.state.roleName == 'INSPECTOR' && this.state.isRefreshing == false ? (
-							<View>
-								<View style={{ flexDirection: 'row', width: '90%', marginTop: 30 }}>
-									<TouchableOpacity
-										onPress={() =>
-											this.props.navigation.push('InspectionsPerformed', { inspData: this.state.inspData })
-										}
-										style={{ width: '50%', justifyContent: 'center', alignItems: 'center' }}
-									>
-										<Image
-											source={require('../Images/HomeScreenIcons/new-inspection.png')}
-											style={{ borderWidth: 1, borderRadius: 5 }}
-										/>
-									</TouchableOpacity>
-
-									<TouchableOpacity
-										onPress={() => this.reDirectTo()}
-										style={{ width: '50%', justifyContent: 'center', alignItems: 'center' }}
-									>
-										<Image
-											source={require('../Images/HomeScreenIcons/inprogress.png')}
-											style={{ borderWidth: 1, borderRadius: 5 }}
-										/>
-									</TouchableOpacity>
-								</View>
-								<View style={{ flexDirection: 'row', width: '90%', marginTop: 30 }}>
-									<TouchableOpacity
-										onPress={() => this.props.navigation.push('NominationConfirmation')}
-										style={{ width: '50%', justifyContent: 'center', alignItems: 'center' }}
-									>
-										<Image
-											source={require('../Images/HomeScreenIcons/Intimate-vendor.png')}
-											style={{ borderWidth: 1, borderRadius: 5 }}
-										/>
-									</TouchableOpacity>
-
-									<TouchableOpacity
-										onPress={() => this.props.navigation.push('GPInspection')}
-										style={{ width: '50%', justifyContent: 'center', alignItems: 'center' }}
-									>
-										<Image
-											source={require('../Images/HomeScreenIcons/GPInspection.png')}
-											style={{ borderWidth: 1, borderRadius: 5 }}
-										/>
-									</TouchableOpacity>
-								</View>
-								<View style={{ flexDirection: 'row', width: '90%', marginTop: 30 }}>
-									<TouchableOpacity
-										onPress={() => this.props.navigation.push('GPVendIntimation')}
-										style={{ width: '50%', justifyContent: 'center', alignItems: 'center' }}
-									>
-										<Image
-											source={require('../Images/HomeScreenIcons/GPIntimate-vendor.png')}
-											style={{ borderWidth: 1, borderRadius: 5 }}
-										/>
-									</TouchableOpacity>
-
-									<TouchableOpacity
-										onPress={() =>
-											this.props.navigation.push('InspectionsPerformed', { inspData: this.state.inspData })
-										}
-										style={{ width: '50%', justifyContent: 'center', alignItems: 'center' }}
-									>
-										<Image
-											source={require('../Images/HomeScreenIcons/new-inspection.png')}
-											style={{ borderWidth: 1, borderRadius: 5 }}
-										/>
-									</TouchableOpacity>
-								</View>
+							<View style={{ marginTop: '40%' }}>
+								<TouchableOpacity onPress={() => this.props.navigation.push('MMInspection')} style={styles.button}>
+									<Text style={styles.buttonText}>MM Inspection</Text>
+								</TouchableOpacity>
+								<TouchableOpacity
+									onPress={() => this.props.navigation.push('SetwInspection')}
+									style={[styles.button, { marginTop: '15%' }]}
+								>
+									<Text style={styles.buttonText}>SETW / RDSS Inspection</Text>
+								</TouchableOpacity>
 							</View>
 						) : null}
 						{this.state.roleName == 'VENDOR' && this.state.isRefreshing == false ? (
@@ -277,7 +213,7 @@ export default class HomeScreen extends Component {
 										/>
 									</TouchableOpacity>
 									<TouchableOpacity
-										onPress={() => this.props.navigation.push('InspectorConfirmationScreen')}
+										onPress={() => this.props.navigation.push('InspectorConfirmationScreen', { from: '' })}
 										style={{ width: '50%', justifyContent: 'center', alignItems: 'center' }}
 									>
 										<Image
@@ -318,17 +254,42 @@ export default class HomeScreen extends Component {
 											style={{ borderWidth: 1, borderRadius: 5 }}
 										/>
 									</TouchableOpacity>
+									<TouchableOpacity
+										onPress={() => this.props.navigation.push('InspectorConfirmationScreen', { from: 'setw' })}
+										style={styles.box}
+									>
+										<Text style={{ color: '#fff', fontSize: 16, fontFamily: 'GoogleSans-Medium' }}>SETW / RDSS</Text>
+										<Text style={{ color: '#fff', fontSize: 14, paddingTop: 10, fontFamily: 'GoogleSans-Medium' }}>
+											Confirm Inspection
+										</Text>
+									</TouchableOpacity>
 								</View>
 							</View>
 						) : null}
-					</View>
-					<View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 25 }}>
-						<TouchableOpacity onPress={() => this.getDownloadLink1()} style={{ alignItems: 'center' }}>
-							<Text style={{ textDecorationLine: 'underline' }}>How to use App ?</Text>
-						</TouchableOpacity>
-						<TouchableOpacity onPress={() => this.onLogOut()} style={styles.button}>
-							<Text style={styles.buttonText}>LogOut</Text>
-						</TouchableOpacity>
+
+						<View
+							style={
+								this.state.roleName == 'VENDOR'
+									? {
+											width: '82%',
+											flexDirection: 'row',
+											alignSelf: 'center',
+											justifyContent: 'space-between',
+											marginVertical: 15
+									  }
+									: {
+											alignItems: 'center',
+											marginTop: '15%'
+									  }
+							}
+						>
+							<TouchableOpacity onPress={() => this.onLogOut()} style={styles.button}>
+								<Text style={styles.buttonText}>LogOut</Text>
+							</TouchableOpacity>
+							<TouchableOpacity onPress={() => this.getDownloadLink1()} style={{ marginTop: 10 }}>
+								<Text style={{ textDecorationLine: 'underline' }}>How to use App ?</Text>
+							</TouchableOpacity>
+						</View>
 					</View>
 				</ScrollView>
 			</ImageBackground>
@@ -345,113 +306,21 @@ const styles = StyleSheet.create({
 		borderRadius: 5,
 		backgroundColor: '#ff7f00',
 		paddingVertical: 10,
-		paddingHorizontal: 20
+		paddingHorizontal: 20,
+		height: 40,
+		alignItems: 'center'
 	},
 	buttonText: {
 		fontSize: 18,
 		color: '#ffffff',
 		fontFamily: 'GoogleSans-Medium'
+	},
+	box: {
+		backgroundColor: '#0A141A',
+		width: '40%',
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderRadius: 5,
+		marginLeft: 18
 	}
 });
-
-class Inspector extends Component {
-	render() {
-		return (
-			<View>
-				<View style={{ flexDirection: 'row', width: '90%', marginTop: 50 }}>
-					<TouchableOpacity
-						onPress={() => this.props.navigation.push('InspectionsPerformed', { inspData: this.state.inspData })}
-						style={{ width: '50%', justifyContent: 'center', alignItems: 'center' }}
-					>
-						<Image
-							source={require('../Images/HomeScreenIcons/new-inspection.png')}
-							style={{ borderWidth: 1, borderRadius: 5, elevation: 10 }}
-						/>
-					</TouchableOpacity>
-
-					<TouchableOpacity
-						onPress={() => this.reDirectTo()}
-						style={{ width: '50%', justifyContent: 'center', alignItems: 'center' }}
-					>
-						<Image
-							source={require('../Images/HomeScreenIcons/inprogress.png')}
-							style={{ borderWidth: 1, borderRadius: 5, elevation: 10 }}
-						/>
-					</TouchableOpacity>
-				</View>
-				<View style={{ flexDirection: 'row', width: '90%', marginTop: 50 }}>
-					<TouchableOpacity
-						onPress={() => this.props.navigation.push('NominationConfirmation')}
-						style={{ width: '50%', justifyContent: 'center', alignItems: 'center' }}
-					>
-						<Image
-							source={require('../Images/HomeScreenIcons/Intimate-vendor.png')}
-							style={{ borderWidth: 1, borderRadius: 5, elevation: 10 }}
-						/>
-					</TouchableOpacity>
-
-					<TouchableOpacity
-						onPress={() => this.props.navigation.push('Calculator')}
-						style={{ width: '50%', justifyContent: 'center', alignItems: 'center' }}
-					>
-						<Image
-							source={require('../Images/HomeScreenIcons/calculator.png')}
-							style={{ borderWidth: 1, borderRadius: 5, elevation: 10 }}
-						/>
-					</TouchableOpacity>
-				</View>
-			</View>
-		);
-	}
-}
-
-class Vendor extends Component {
-	render() {
-		return (
-			<View>
-				<View style={{ flexDirection: 'row', width: '90%', marginTop: 50 }}>
-					<TouchableOpacity
-						onPress={() => this.props.navigation.push('PDIOfferScreen')}
-						style={{ width: '50%', justifyContent: 'center', alignItems: 'center' }}
-					>
-						<Image
-							source={require('../Images/HomeScreenIcons/pdi-offer.png')}
-							style={{ borderWidth: 1, borderRadius: 5, elevation: 10 }}
-						/>
-					</TouchableOpacity>
-					<TouchableOpacity
-						onPress={() => this.props.navigation.push('InspectorConfirmationScreen')}
-						style={{ width: '50%', justifyContent: 'center', alignItems: 'center' }}
-					>
-						<Image
-							source={require('../Images/HomeScreenIcons/Confirm-Inspection.png')}
-							style={{ borderWidth: 1, borderRadius: 5, elevation: 10 }}
-						/>
-					</TouchableOpacity>
-				</View>
-
-				<View style={{ flexDirection: 'row', width: '90%', marginTop: 50 }}>
-					<TouchableOpacity
-						onPress={() => this.props.navigation.push('AddressConfirmation')}
-						style={{ width: '50%', justifyContent: 'center', alignItems: 'center' }}
-					>
-						<Image
-							source={require('../Images/HomeScreenIcons/calendar.png')}
-							style={{ borderWidth: 1, borderRadius: 5, elevation: 10 }}
-						/>
-					</TouchableOpacity>
-
-					<TouchableOpacity
-						onPress={() => this.props.navigation.push('Calculator')}
-						style={{ width: '50%', justifyContent: 'center', alignItems: 'center' }}
-					>
-						<Image
-							source={require('../Images/HomeScreenIcons/calculator.png')}
-							style={{ borderWidth: 1, borderRadius: 5, elevation: 10 }}
-						/>
-					</TouchableOpacity>
-				</View>
-			</View>
-		);
-	}
-}

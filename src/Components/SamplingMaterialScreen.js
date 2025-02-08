@@ -44,7 +44,8 @@ export default class SamplingMaterial extends Component {
 
 	reDirectTo() {
 		this.props.navigation.push('MaterialInspected', {
-			siteOfferDetails: this.state.siteOfferDetails
+			siteOfferDetails: this.state.siteOfferDetails,
+			from: this.props.navigation.state.params.from
 		});
 	}
 
@@ -66,6 +67,7 @@ export default class SamplingMaterial extends Component {
 		//alert(JSON.stringify(Details))
 		APIManager.uploadTestStatus(
 			Details,
+			this.props.navigation.state.params.from,
 			responseJson => {
 				console.log(JSON.stringify(responseJson));
 				if (responseJson.status == 'SUCCESS') {
@@ -92,6 +94,7 @@ export default class SamplingMaterial extends Component {
 			this.state.matId,
 			this.state.matscId,
 			this.state.pdiId,
+			this.props.navigation.state.params.from,
 			responseJson => {
 				console.log(JSON.stringify(responseJson));
 				if (responseJson.status == 'SUCCESS') {
@@ -250,6 +253,7 @@ export default class SamplingMaterial extends Component {
 												matId: this.state.matId,
 												matscId: this.state.matscId,
 												pdiId: this.state.pdiId,
+												from: this.props.navigation.state.params.from,
 												onGoBack: () => this.refresh()
 											})
 										}
