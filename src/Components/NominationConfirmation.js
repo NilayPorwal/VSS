@@ -137,7 +137,7 @@ export default class NominationConfirmation extends Component {
 					<View style={styles.container}>
 						<Loader loading={this.state.isRefreshing} color="#40a7ab" />
 
-						{this.state.vendorInfo.length > 0 ? (
+						{this.state.vendorInfo.length > 0 && (
 							<FlatList
 								data={this.state.vendorInfo}
 								keyExtractor={item => item.index}
@@ -292,8 +292,9 @@ export default class NominationConfirmation extends Component {
 									</View>
 								)}
 							/>
-						) : (
-							<View style={{ justifyContent: 'center', height: 100 }}>
+						)}
+						{this.state.vendorInfo.length == 0 && this.state.nomList.length == 0 && !this.state.isRefreshing && (
+							<View style={{ marginTop: '30%' }}>
 								<Text style={{ fontFamily: 'GoogleSans-Medium', fontSize: 15 }}>No Data Found</Text>
 							</View>
 						)}

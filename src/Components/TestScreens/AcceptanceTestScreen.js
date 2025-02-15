@@ -17,11 +17,11 @@ import {
 	ActivityIndicator
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import ImagePicker from 'react-native-image-picker';
 import APIManager from '../Managers/APIManager';
 import { Base64 } from 'js-base64';
 import Loader from 'react-native-modal-loader';
 import DocumentPicker from 'react-native-document-picker';
+import { launchCamera } from 'react-native-image-picker/src';
 var RNFS = require('react-native-fs');
 
 global.AcceptanceTest;
@@ -137,11 +137,12 @@ export default class AcceptanceTest extends Component {
 		var options = {
 			title: 'Select Avatar',
 			quality: 0.3,
+			includeBase64: true,
 			storageOptions: {
 				path: 'images'
 			}
 		};
-		ImagePicker.launchCamera(options, response => {
+		launchCamera(options, response => {
 			console.log('Response = ', response);
 			//alert(JSON.stringify(response))
 			if (response.didCancel) {
@@ -154,7 +155,7 @@ export default class AcceptanceTest extends Component {
 
 				this.setState({
 					image: source,
-					imageData: response.data,
+					imageData: response?.base64,
 					type: 'png'
 				});
 			}
@@ -247,7 +248,7 @@ export default class AcceptanceTest extends Component {
 	render() {
 		return (
 			<ImageBackground source={require('../../Images/background.png')} style={{ width: '100%', height: '100%' }}>
-				<View style={{ width: '20%', flexDirection: 'row' }}>
+				<View style={{ width: '100%', flexDirection: 'row' }}>
 					<TouchableOpacity onPress={() => global.AcceptanceTest.handleAndroidBackButton()}>
 						<Icon name="chevron-left" size={20} color="#000000" style={{ margin: 15 }} />
 					</TouchableOpacity>

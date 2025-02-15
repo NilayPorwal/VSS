@@ -106,8 +106,8 @@ android {
         applicationId "in.inventive.vss.jvvnl"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 35
-        versionName "6.0"
+        versionCode 37
+        versionName "8.0"
         multiDexEnabled true
         // ndk {
         //     abiFilters "armeabi-v7a", "x86"

@@ -161,6 +161,7 @@ export default class HomeScreen extends Component {
 						{Platform.OS == 'android' ? <Loader loading={this.state.isRefreshing} color="#40a7ab" /> : null}
 
 						<Text
+							adjustsFontSizeToFit
 							style={{
 								fontSize: 15,
 								fontFamily: 'GoogleSans-Medium',

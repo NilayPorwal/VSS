@@ -21,8 +21,8 @@ import APIManager from '../Managers/APIManager';
 import { Base64 } from 'js-base64';
 import Loader from 'react-native-modal-loader';
 import Icon from 'react-native-vector-icons/Feather';
-import ImagePicker from 'react-native-image-picker';
 import { getData } from '../../helper';
+import { launchImageLibrary } from 'react-native-image-picker/src';
 
 var dateFormat = require('dateformat');
 
@@ -143,11 +143,12 @@ export default class GPInspectorConfirmationScreen extends Component {
 		var options = {
 			title: 'Select Avatar',
 			quality: 0.2,
+			includeBase64: true,
 			storageOptions: {
 				path: 'images'
 			}
 		};
-		ImagePicker.showImagePicker(options, response => {
+		launchImageLibrary(options, response => {
 			console.log('Response = ', response);
 
 			if (response.didCancel) {
@@ -160,7 +161,7 @@ export default class GPInspectorConfirmationScreen extends Component {
 				// console.log('data:image/jpeg;base64,'response.data);
 				let source = {
 					inspectionCnfrmAiId: this.state.item.inspectionCnfrmAiId,
-					uploadPackingListPhotoPath: 'data:image/jpeg;base64,' + response.data,
+					uploadPackingListPhotoPath: 'data:image/jpeg;base64,' + response?.base64,
 					extn: 'png'
 				};
 

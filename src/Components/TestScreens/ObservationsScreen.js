@@ -16,10 +16,10 @@ import {
 	ImageBackground
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import ImagePicker from 'react-native-image-picker';
 import APIManager from '../Managers/APIManager';
 import { Base64 } from 'js-base64';
 import Loader from 'react-native-modal-loader';
+import { launchImageLibrary } from 'react-native-image-picker/src';
 
 export default class ObservationsScreen extends Component {
 	constructor(props) {
@@ -96,11 +96,12 @@ export default class ObservationsScreen extends Component {
 		var options = {
 			title: 'Select Avatar',
 			quality: 0.3,
+			includeBase64: true,
 			storageOptions: {
 				path: 'images'
 			}
 		};
-		ImagePicker.showImagePicker(options, response => {
+		launchImageLibrary(options, response => {
 			console.log('Response = ', response);
 
 			if (response.didCancel) {
@@ -114,7 +115,7 @@ export default class ObservationsScreen extends Component {
 
 				this.setState({
 					image: [...this.state.image, { image: response.uri }],
-					imageData: [...this.state.imageData, response.data],
+					imageData: [...this.state.imageData, response?.base64],
 					photoExtension: 'png'
 				});
 			}

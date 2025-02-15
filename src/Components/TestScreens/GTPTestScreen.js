@@ -19,9 +19,9 @@ import {
 	Alert
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import ImagePicker from 'react-native-image-picker';
 import APIManager from '../Managers/APIManager';
 import Loader from 'react-native-modal-loader';
+import { launchImageLibrary } from 'react-native-image-picker/src';
 
 global.GTPTestScreen;
 export default class GTPTestScreen extends Component {
@@ -329,12 +329,13 @@ export default class GTPTestScreen extends Component {
 	onCamera() {
 		var options = {
 			title: 'Select Avatar',
+			includeBase64: true,
 			quality: 0.3,
 			storageOptions: {
 				path: 'images'
 			}
 		};
-		ImagePicker.showImagePicker(options, response => {
+		launchImageLibrary(options, response => {
 			console.log('Response = ', response);
 
 			if (response.didCancel) {
@@ -349,7 +350,7 @@ export default class GTPTestScreen extends Component {
 
 				this.setState({
 					image: source,
-					imageData: response.data,
+					imageData: response?.base64,
 					photoExtension: type
 				});
 			}
@@ -380,7 +381,7 @@ export default class GTPTestScreen extends Component {
 					<View style={styles.container}>
 						<Loader loading={this.state.isLoading2} color="#40a7ab" />
 
-						<View style={{ width: '10%', flexDirection: 'row' }}>
+						<View style={{ width: '100%', flexDirection: 'row' }}>
 							<TouchableOpacity onPress={() => global.GTPTestScreen.handleAndroidBackButton()}>
 								<Icon name="chevron-left" size={20} color="#000000" style={{ margin: 15 }} />
 							</TouchableOpacity>

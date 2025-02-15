@@ -15,9 +15,9 @@ import {
 	ImageBackground
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import ImagePicker from 'react-native-image-picker';
 import APIManager from '../Managers/APIManager';
 import { Base64 } from 'js-base64';
+import { launchImageLibrary } from 'react-native-image-picker/src';
 
 export default class DrawingTest extends Component {
 	constructor(props) {
@@ -61,11 +61,12 @@ export default class DrawingTest extends Component {
 		var options = {
 			title: 'Select Avatar',
 			quality: 0.3,
+			includeBase64: true,
 			storageOptions: {
 				path: 'images'
 			}
 		};
-		ImagePicker.showImagePicker(options, response => {
+		launchImageLibrary(options, response => {
 			console.log('Response = ', response);
 
 			if (response.didCancel) {
@@ -80,7 +81,7 @@ export default class DrawingTest extends Component {
 
 				this.setState({
 					image: source,
-					imageData: response.data
+					imageData: response?.base64
 				});
 			}
 		});

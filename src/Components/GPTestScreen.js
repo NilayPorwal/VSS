@@ -17,11 +17,11 @@ import {
 	ActivityIndicator
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import ImagePicker from 'react-native-image-picker';
 import APIManager from './Managers/APIManager';
 import { Base64 } from 'js-base64';
 import Loader from 'react-native-modal-loader';
 import DocumentPicker from 'react-native-document-picker';
+import { launchCamera } from 'react-native-image-picker/src';
 var RNFS = require('react-native-fs');
 
 global.GPTestScreen;
@@ -164,11 +164,12 @@ export default class GPTestScreen extends Component {
 		var options = {
 			title: 'Select Avatar',
 			quality: 0.3,
+			includeBase64: true,
 			storageOptions: {
 				path: 'images'
 			}
 		};
-		ImagePicker.launchCamera(options, response => {
+		launchCamera(options, response => {
 			console.log('Response = ', response);
 			//alert(JSON.stringify(response))
 			if (response.didCancel) {
@@ -179,7 +180,7 @@ export default class GPTestScreen extends Component {
 				let source = response.uri;
 				// let type = response.type.slice(6, 10)
 				const imgData = {
-					imageData: response.data,
+					imageData: response?.base64,
 					type: 'jpeg'
 				};
 				this.setState({ image: [...this.state.image, imgData] });

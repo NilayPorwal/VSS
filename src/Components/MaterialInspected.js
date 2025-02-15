@@ -28,8 +28,8 @@ import Icon from 'react-native-vector-icons/Feather';
 import RNFetchBlob from 'react-native-fetch-blob';
 import { Base64 } from 'js-base64';
 import DocumentPicker from 'react-native-document-picker';
-import ImagePicker from 'react-native-image-picker';
 import { getData, removeData } from '../helper';
+import { launchCamera } from 'react-native-image-picker/src';
 var RNFS = require('react-native-fs');
 
 global.MaterialInspected;
@@ -249,6 +249,7 @@ export default class MaterialInspected extends Component {
 		//alert(Details)
 		APIManager.updateMatInspStatus(
 			Details,
+			this.props.navigation.state.params.from,
 			responseJson => {
 				//  alert(JSON.stringify(responseJson));
 				if (responseJson.status == 'SUCCESS') {
@@ -300,6 +301,7 @@ export default class MaterialInspected extends Component {
 		//alert(JSON.stringify(Details));
 		APIManager.uploadTestStatus(
 			Details,
+			this.props.navigation.state.params.from,
 			responseJson => {
 				// alert(JSON.stringify(responseJson));
 				if (responseJson.status == 'SUCCESS') {
@@ -860,11 +862,12 @@ export default class MaterialInspected extends Component {
 		var options = {
 			title: 'Select Avatar',
 			quality: 0.3,
+			includeBase64: true,
 			storageOptions: {
 				path: 'images'
 			}
 		};
-		ImagePicker.launchCamera(options, response => {
+		launchCamera(options, response => {
 			console.log('Response = ', response);
 			//alert(JSON.stringify(response))
 			if (response.didCancel) {
@@ -875,7 +878,7 @@ export default class MaterialInspected extends Component {
 				let source = response.uri;
 				// let type = response.type.slice(6, 10)
 				const imgData = {
-					imageData: response.data,
+					imageData: response?.base64,
 					type: 'jpeg'
 				};
 				this.setState({ image: [...this.state.image, imgData] });

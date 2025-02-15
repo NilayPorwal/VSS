@@ -30,10 +30,12 @@ export default class LogInScreen extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			// username: 'mukeshsinghsikarwar1101@gmail.com', //xenvgjpdc@gmail.com,
+			//username: 'mukeshsinghsikarwar1101@gmail.com', //xenvgjpdc@gmail.com,
 			// username: 'maharajacables78@rediffmail.com',
 			// username: 'balaraamchaudhary1969@gmail.com',
 			// password: 'Balarch@9',
+			// username: '67neerajsharma@gmail.com',
+			// password: 'Neerajs@0',
 			username: '',
 			password: '',
 			data: { mh: '' },

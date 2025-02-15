@@ -36,7 +36,8 @@ export default class AcceptedSiteOffers extends Component {
 
 	reDirectTo() {
 		this.props.navigation.navigate('MaterialInspected', {
-			siteOfferDetails: this.state.siteOfferDetails
+			siteOfferDetails: this.state.siteOfferDetails,
+			from: this.props.navigation.state.params.from
 		});
 	}
 
