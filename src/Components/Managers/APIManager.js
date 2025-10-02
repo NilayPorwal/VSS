@@ -2056,4 +2056,44 @@ export default class APIManager {
 				failure(error);
 			});
 	}
+
+	static forwardNomination(nominationAiId, pdiOfferAiId, inspectorAiId, reason, from = '', success, failure) {
+		const credentials = APIManager.Sso_Id + ':' + APIManager.Api_Key;
+		const hash = Base64.encode(credentials);
+		const Basic = 'Basic ' + hash;
+
+		fetch(
+			APIManager.host +
+				'v1/replace/existing/inspector/?nominationAiId=' +
+				nominationAiId +
+				'&pdiOfferAiId=' +
+				pdiOfferAiId +
+				'&inspectorAiId=' +
+				inspectorAiId +
+				'&reason=' +
+				reason,
+			{
+				method: 'POST',
+				headers: {
+					//loggedInUserId: APIManager.User_Id,
+					Authorization: Basic,
+					'Content-Type': 'application/json'
+				}
+			}
+		)
+			.then(response => response.json())
+			.then(responseJson => {
+				try {
+					console.log(JSON.stringify(responseJson));
+					success(responseJson);
+				} catch (error) {
+					console.log(error);
+					failure(error);
+				}
+			})
+			.catch(error => {
+				console.log(error);
+				failure(error);
+			});
+	}
 }

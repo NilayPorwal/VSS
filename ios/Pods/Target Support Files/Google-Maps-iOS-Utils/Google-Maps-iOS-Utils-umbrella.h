@@ -15,11 +15,11 @@
 #import "GMUNonHierarchicalDistanceBasedAlgorithm.h"
 #import "GMUSimpleClusterAlgorithm.h"
 #import "GMUWrappingDictionaryKey.h"
+#import "GMSMarker+GMUClusteritem.h"
 #import "GMUCluster.h"
 #import "GMUClusterItem.h"
 #import "GMUClusterManager+Testing.h"
 #import "GMUClusterManager.h"
-#import "GMUMarkerClustering.h"
 #import "GMUStaticCluster.h"
 #import "GMUClusterIconGenerator.h"
 #import "GMUClusterRenderer.h"
@@ -37,11 +37,14 @@
 #import "GMUGeometryContainer.h"
 #import "GMUGroundOverlay.h"
 #import "GMULineString.h"
+#import "GMUPair.h"
 #import "GMUPlacemark.h"
 #import "GMUPoint.h"
 #import "GMUPolygon.h"
 #import "GMUStyle.h"
+#import "GMUStyleMap.h"
 #import "GMUGradient.h"
+#import "GMUHeatmapTileLayer+Testing.h"
 #import "GMUHeatmapTileLayer.h"
 #import "GMUWeightedLatLng.h"
 #import "GQTBounds.h"
@@ -50,6 +53,6 @@
 #import "GQTPointQuadTreeChild.h"
 #import "GQTPointQuadTreeItem.h"
 
-FOUNDATION_EXPORT double Google_Maps_iOS_UtilsVersionNumber;
-FOUNDATION_EXPORT const unsigned char Google_Maps_iOS_UtilsVersionString[];
+FOUNDATION_EXPORT double GoogleMapsUtilsVersionNumber;
+FOUNDATION_EXPORT const unsigned char GoogleMapsUtilsVersionString[];
 

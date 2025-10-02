@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Google Inc. All rights reserved.
+ * Copyright 2016 Google LLC. All rights reserved.
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -174,10 +174,11 @@
   return @[mapDemos, panoramaDemos, overlayDemos, cameraDemos, servicesDemos];
 }
 
-+ (NSDictionary *)newDemo:(Class) class
++ (NSDictionary *)newDemo:(Class)viewControllerClass
                 withTitle:(NSString *)title
            andDescription:(NSString *)description {
-  return [[NSDictionary alloc] initWithObjectsAndKeys:class, @"controller",
-          title, @"title", description, @"description", nil];
+  return [[NSDictionary alloc] initWithObjectsAndKeys:viewControllerClass, @"controller", title,
+                                                      @"title", description, @"description", nil];
 }
+
 @end

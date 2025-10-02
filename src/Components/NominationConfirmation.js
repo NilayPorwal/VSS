@@ -8,17 +8,19 @@ import {
 	TouchableOpacity,
 	BackHandler,
 	Modal,
-	TouchableWithoutFeedback,
+	TextInput,
 	ImageBackground,
 	ActivityIndicator,
 	ScrollView,
-	FlatList
+	FlatList,
+	CheckBox
 } from 'react-native';
 import APIManager from './Managers/APIManager';
 import { Base64 } from 'js-base64';
 import Loader from 'react-native-modal-loader';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { getData } from '../helper';
+import { Alert } from 'react-native';
 
 global.NominationConfirmation;
 export default class NominationConfirmation extends Component {
@@ -30,7 +32,12 @@ export default class NominationConfirmation extends Component {
 			woDetails: [],
 			inspId: '',
 			isRefreshing: true,
-			error: false
+			error: false,
+			check: 0,
+			reason: '',
+			modalVisible: false,
+			selectedData: '',
+			isForwarding: false
 		};
 		global.NominationConfirmation = this;
 	}
@@ -61,6 +68,7 @@ export default class NominationConfirmation extends Component {
 	}
 
 	getNominationInfo() {
+		this.setState({ isRefreshing: true });
 		APIManager.getNominationInfo(
 			this.state.inspId,
 			1,
@@ -101,12 +109,46 @@ export default class NominationConfirmation extends Component {
 	}
 
 	redirectTo(item) {
+		this.setState({ modalVisible: false });
 		this.props.navigation.push('ConfirmInspectionScreen', {
 			vendorInfo: item,
 			onGoBack: () => {
 				this.getInspId();
 			}
 		});
+	}
+
+	onForward(item) {
+		this.setState({ isForwarding: true });
+		APIManager.forwardNomination(
+			item?.nominationAiId,
+			item?.pdiOfferAiId,
+			item?.inspectorAiId,
+			this.state.reason,
+			this.props.navigation.state.params.from,
+			responseJson => {
+				console.log(responseJson);
+				this.setState({ isForwarding: false });
+				if (responseJson.status == 'SUCCESS') {
+					this.setState({ modalVisible: false, vendorInfo: [], reason: '', selectedData: '', check: 0 });
+
+					Alert.alert(
+						'Success',
+						responseJson?.message || '',
+						[{ text: 'OK', onPress: () => this.getNominationInfo() }],
+						{
+							cancelable: false
+						}
+					);
+				} else {
+					Alert.alert('Error', 'Something Went Wrong');
+				}
+			},
+			error => {
+				this.setState({ isForwarding: true });
+				console.log(JSON.stringify(error));
+			}
+		);
 	}
 
 	render() {
@@ -270,7 +312,11 @@ export default class NominationConfirmation extends Component {
 											<View style={{ width: '50%' }}>
 												<TouchableOpacity
 													onPress={() => {
-														this.redirectTo(item);
+														if (this.props.navigation.state.params.from == 'setw') {
+															this.redirectTo(item);
+														} else {
+															this.setState({ selectedData: item, modalVisible: true });
+														}
 													}}
 													style={{ borderRadius: 5, backgroundColor: '#418bca' }}
 												>
@@ -389,6 +435,93 @@ export default class NominationConfirmation extends Component {
 							/>
 						) : null}
 					</View>
+
+					<Modal
+						//animationType="slide"
+						transparent={true}
+						visible={this.state.modalVisible}
+						onRequestClose={() => {
+							this.setState({ modalVisible: false });
+						}}
+					>
+						<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#00000080' }}>
+							<View
+								style={{
+									width: '80%',
+									backgroundColor: '#ffffff',
+									borderRadius: 10,
+									justifyContent: 'center',
+									alignItems: 'center',
+									padding: 15
+								}}
+							>
+								<View style={{ marginTop: 5, width: '100%' }}>
+									<Text style={styles.text}>Please confirm your intent in this nomination.</Text>
+
+									<View style={{ flexDirection: 'row', marginTop: 10 }}>
+										<View style={{ flexDirection: 'row' }}>
+											<CheckBox
+												value={this.state.check == 0 ? true : false}
+												onValueChange={() => this.setState({ check: 0 })}
+											/>
+											<Text style={{ paddingTop: 5 }}>Yes</Text>
+										</View>
+										<View style={{ flexDirection: 'row', marginLeft: 20 }}>
+											<CheckBox
+												value={this.state.check == 1 ? true : false}
+												onValueChange={() => this.setState({ check: 1 })}
+											/>
+											<Text style={{ paddingTop: 5 }}>No</Text>
+										</View>
+									</View>
+
+									{this.state.check == 1 ? (
+										<>
+											<Text style={{ ...styles.text, marginTop: 10 }}>Reason : </Text>
+											<TextInput
+												style={{
+													marginTop: 5,
+													borderWidth: 1,
+													paddingVertical: 5,
+													height: 80
+												}}
+												onChangeText={text => this.setState({ reason: text })}
+												value={this.state.reason}
+												multiline={true}
+												textAlignVertical="top"
+												placeholder="Type Here"
+											/>
+											{this.state.isForwarding == true ? (
+												<ActivityIndicator size="small" color="#000000" style={{ marginTop: 10 }} />
+											) : (
+												<TouchableOpacity
+													onPress={() => this.onForward(this.state.selectedData)}
+													style={styles.otpButton}
+												>
+													<Text style={{ fontSize: 15, color: '#ffffff', paddingVertical: 12, textAlign: 'center' }}>
+														Forward
+													</Text>
+												</TouchableOpacity>
+											)}
+										</>
+									) : (
+										<TouchableOpacity onPress={() => this.redirectTo(this.state.selectedData)} style={styles.otpButton}>
+											<Text style={{ fontSize: 15, color: '#ffffff', paddingVertical: 10, textAlign: 'center' }}>
+												Proceed
+											</Text>
+										</TouchableOpacity>
+									)}
+								</View>
+
+								<TouchableOpacity
+									onPress={() => this.setState({ modalVisible: false })}
+									style={{ position: 'absolute', top: 0, right: 5 }}
+								>
+									<Icon name="remove" size={20} color="black" />
+								</TouchableOpacity>
+							</View>
+						</View>
+					</Modal>
 				</ScrollView>
 			</ImageBackground>
 		);
@@ -455,5 +588,15 @@ const styles = StyleSheet.create({
 		backgroundColor: '#FEC1A5',
 		elevation: 8,
 		borderColor: 'transparent'
+	},
+	otpButton: {
+		borderRadius: 5,
+		backgroundColor: '#ff7f00',
+		marginTop: 15
+	},
+	text: {
+		color: 'black',
+		fontSize: 15,
+		fontFamily: 'GoogleSans-Medium'
 	}
 });

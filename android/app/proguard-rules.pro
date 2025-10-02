@@ -15,3 +15,11 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+
+-keep class com.facebook.react.** { *; }
+-keep class com.facebook.yoga.** { *; }
+-keep class com.facebook.jni.** { *; }
+-keep class androidx.lifecycle.** { *; }
+-dontwarn com.facebook.react.**
+-dontwarn com.facebook.yoga.**

@@ -409,7 +409,7 @@ third-party archives.
 
 ## GoogleMaps
 
-Copyright 2019 Google
+Copyright 2021 Google
 
 ## RNFS
 

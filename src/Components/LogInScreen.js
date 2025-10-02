@@ -36,6 +36,8 @@ export default class LogInScreen extends Component {
 			// password: 'Balarch@9',
 			// username: '67neerajsharma@gmail.com',
 			// password: 'Neerajs@0',
+			// username: 'xenvgjpdc@gmail.com',
+			// password: '123',
 			username: '',
 			password: '',
 			data: { mh: '' },
@@ -340,7 +342,15 @@ export default class LogInScreen extends Component {
 														onPress={() => this.onSubmitOtp()}
 														style={styles.otpButton}
 													>
-														<Text style={{ fontSize: 15, color: '#ffffff', paddingVertical: 12, textAlign: 'center' }}>
+														<Text
+															style={{
+																fontSize: 15,
+																color: '#ffffff',
+																paddingVertical: 12,
+																textAlign: 'center',
+																width: '100%'
+															}}
+														>
 															SUBMIT
 														</Text>
 													</TouchableOpacity>

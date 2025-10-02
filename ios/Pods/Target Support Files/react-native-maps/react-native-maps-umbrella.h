@@ -34,6 +34,7 @@
 #import "AIRMapPolylineRenderer.h"
 #import "AIRMapSnapshot.h"
 #import "AIRMapUrlTile.h"
+#import "AIRMapUrlTileCachedOverlay.h"
 #import "AIRMapUrlTileManager.h"
 #import "AIRMapWMSTile.h"
 #import "AIRMapWMSTileManager.h"
